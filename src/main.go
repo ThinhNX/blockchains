@@ -1,38 +1,19 @@
 package main
 
 import (
+	"blockchains/src/blocks"
 	"fmt"
-	"time"
 )
-
 func main() {
-	ch := createIntChan(1000)
-	fmt.Println("Hello, World!!!")
-	go func(ch chan int) {
-		for i := 0; i < 100; i++ {
-			if i == 99 {
-				i = 1
-			}
-			ch <- i
-			time.Sleep(10 * time.Millisecond)
-		}
-	}(ch)
-	go func(ch chan int) {
-		for {
-			select {
-			case recv := <-ch:
-				fmt.Printf("Rec: %d\n", recv)
-			default:
-				fmt.Println("Nothing")
-			}
-			time.Sleep(1000 * time.Millisecond)
-		}
-	}(ch)
+	bc := blocks.NewBlockChain()
 
-	time.Sleep(10000 * time.Second)
-}
+	bc.AddBlock("Send 1 BTC to Ivan")
+	bc.AddBlock("Send 2 more BTC to Ivan")
 
-func createIntChan(n int) chan int {
-	toReturned := make(chan int, n)
-	return toReturned
+	for _, block := range bc.Blocks {
+		fmt.Printf("Prev. hash: %x\n", block.PrevBlockHash)
+		fmt.Printf("Data: %s\n", block.Data)
+		fmt.Printf("Hash: %x\n", block.Hash)
+		fmt.Println()
+	}
 }
