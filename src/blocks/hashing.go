@@ -13,7 +13,7 @@ var (
 	maxNonce = math.MaxInt64
 )
 
-const targetBits = 24
+const targetBits = 18
 
 type ProofOfWork struct {
 	block *Block
@@ -22,6 +22,7 @@ type ProofOfWork struct {
 
 func NewProofOfWork(b *Block) *ProofOfWork{
 	target := big.NewInt(1)
+	//Shift left target (256-targetBits) bits. This is target
 	target.Lsh(target, uint(256-targetBits))
 	pow := &ProofOfWork{b, target}
 	return pow
@@ -39,7 +40,6 @@ func IntToHex(num int64) []byte {
 
 	return buff.Bytes()
 }
-
 
 func (pow *ProofOfWork) prepareData(nonce int) []byte {
 	data := bytes.Join(
@@ -68,6 +68,7 @@ func (pow *ProofOfWork) Run() (int, []byte) {
 		hashInt.SetBytes(hash[:])
 
 		if hashInt.Cmp(pow.target) == -1 {
+			fmt.Printf("\nAt nonce: %x", nonce)
 			break
 		} else {
 			nonce++

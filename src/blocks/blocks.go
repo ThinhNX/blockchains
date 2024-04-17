@@ -13,7 +13,7 @@ type Block struct {
 	Data          []byte
 	PrevBlockHash []byte
 	Hash          []byte
-	Nonce			int
+	Nonce         int
 }
 
 func (b *Block) SetHash() {
@@ -31,8 +31,6 @@ func NewBlock(data string, prevBlockHash []byte) *Block {
 	block.Nonce = nonce
 	return block
 }
-
-
 
 type BlockChains struct {
 	Blocks []*Block
