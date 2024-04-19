@@ -57,6 +57,7 @@ func (pow *ProofOfWork) Validate() bool {
 	hash := sha256.Sum256(data)
 	hashInt.SetBytes(hash[:])
 
+	//if hash int is lower than target then return true, else return false
 	isValid := hashInt.Cmp(pow.target) == -1
 
 	return isValid
