@@ -16,7 +16,7 @@ func TestIndexToHex(t *testing.T) {
 }
 
 func TestValidate(t *testing.T) {
-	genBlock := blocks.NewBlock("this is first", []byte{})
+	genBlock := blocks.NewBlock("ThinhNX added this block", []byte{})
 	newPow := blocks.NewProofOfWork(genBlock)
 	if newPow == nil {
 		t.Error("new pow is nil")
@@ -24,6 +24,14 @@ func TestValidate(t *testing.T) {
 	if !newPow.Validate() {
 		t.Error("Can not validate new pow")
 	}
+}
 
+func TestCreateHash(t *testing.T) {
+	newBlock := blocks.NewBlock("Test", []byte{})
+	if newBlock.Hash == nil {
+		t.Error("Not created hash")
+	} else {
+		t.Logf("Created hash: %x\n", newBlock.Hash)
+	}
 
 }
